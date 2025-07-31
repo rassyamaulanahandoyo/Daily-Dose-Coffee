@@ -13,8 +13,8 @@ class Controller {
     res.render('landing')
   }
 
-  static registerForm(req, res) {
-    res.render('registerForm')
+  static getRegister(req, res) {
+    res.render('register')
   }
 
   static async postRegister(req, res) {
@@ -25,15 +25,15 @@ class Controller {
     } catch (error) {
       if (error.name === 'SequelizeValidationError') {
         const errors = error.errors.map(e => e.message)
-        return res.render('registerForm', { errors })
+        return res.render('register', { errors })
       }
       res.send(error)
     }
   }
 
-  static loginForm(req, res) {
+  static getLogin(req, res) {
     const { error } = req.query
-    res.render('loginForm', { error })
+    res.render('login', { error })
   }
 
   static async postLogin(req, res) {
@@ -48,7 +48,7 @@ class Controller {
         return res.redirect('/login?error=Invalid credentials')
       }
       req.session.user = { id: user.id, email: user.email, role: user.role }
-      res.redirect('/')
+      res.redirect('/products')
     } catch (error) {
       res.send(error)
     }
@@ -56,55 +56,46 @@ class Controller {
 
   // ─── PROTECTED ─────────────────────────────────────────────────────────────
 
-  static getLogout(req, res) {
+  static logout(req, res) {
     req.session.destroy(err => {
       if (err) return res.send(err)
-      res.redirect('/login')
+      res.redirect('/')
     })
   }
 
   // ─── PRODUCTS ──────────────────────────────────────────────────────────────
 
-  static async getProduct(req, res) {
+  static async products(req, res) {
     try {
-      const { search, type, productDelete } = req.query
+      const { search, type, productDelete, sort } = req.query
+      const where = {}
+      if (search) where.name = { [Op.iLike]: `%${search}%` }
+      if (type)  where.CategoryId = type
 
-      let data = await Product.findAll({
-        include: { model: User, attributes: ['email'] },
-        order: [['name', 'ASC']]
+      let order = [['name','ASC']]
+      if (sort==='price_asc')  order = [['price','ASC']]
+      if (sort==='price_desc') order = [['price','DESC']]
+
+      const data = await Product.findAll({
+        include: [
+          { model: User, attributes: ['email'], as: 'Seller' },
+          Category
+        ],
+        where,
+        order
       })
 
-      if (search) {
-        data = await Product.findAll({
-          include: { model: User, attributes: ['email'] },
-          where: {
-            name: { [Op.iLike]: `%${search}%` }
-          },
-          order: [['name', 'ASC']]
-        })
-      }
-
-      if (type) {
-        // assume `type` is a CategoryId
-        data = await Product.findAll({
-          include: { model: User, attributes: ['email'] },
-          where: { CategoryId: type },
-          order: [['name', 'ASC']]
-        })
-      }
-
-      res.render('products', { data, productDelete })
+      res.render('products', { data, productDelete, search, type, sort, formatCurrency })
     } catch (error) {
       res.send(error)
     }
   }
 
-  static renderAddProduct(req, res) {
-    const { errors } = req.query
-    res.render('addProduct', { errors })
+  static getAddProduct(req, res) {
+    res.render('addProduct', { errors:null })
   }
 
-  static async addProductHandler(req, res) {
+  static async postAddProduct(req, res) {
     try {
       const { name, description, price, stock, imageURL, CategoryId } = req.body
       await Product.create({
@@ -114,13 +105,13 @@ class Controller {
         stock,
         imageURL,
         CategoryId,
-        userId: req.session.user.id
+        UserId: req.session.user.id    // ← match your migration
       })
       res.redirect('/products')
     } catch (error) {
       if (error.name === 'SequelizeValidationError') {
         const errors = error.errors.map(e => e.message)
-        return res.redirect(`/products/add?errors=${errors}`)
+        return res.render('addProduct', { errors })
       }
       res.send(error)
     }
@@ -131,7 +122,7 @@ class Controller {
       const { id } = req.params
       const { errors } = req.query
       const product = await Product.findByPk(id)
-      res.render('updateProduct', { product, errors })
+      res.render('updateProduct', { product, errors: errors ? errors.split(',') : [] })
     } catch (error) {
       res.send(error)
     }
@@ -148,8 +139,8 @@ class Controller {
       res.redirect('/products')
     } catch (error) {
       if (error.name === 'SequelizeValidationError') {
-        const errors = error.errors.map(e => e.message)
-        return res.redirect(`/products/${req.params.id}/edit?errors=${errors}`)
+        const errors = error.errors.map(e => e.message).join(',')
+        return res.redirect(`/products/${id}/edit?errors=${errors}`)
       }
       res.send(error)
     }
@@ -167,11 +158,6 @@ class Controller {
   }
 
   // ─── CART & CHECKOUT ───────────────────────────────────────────────────────
-
-  static async buyProduct(req, res) {
-    // render a quick single-product purchase page if desired
-    res.render('buyProduct')
-  }
 
   static async getAddToCart(req, res) {
     try {
@@ -234,6 +220,32 @@ class Controller {
     }
   }
 
+  // ─── CATEGORIES ────────────────────────────────────────────────────────────
+
+  static async categories(req, res) {
+    try {
+      const data = await Category.findAll({ order: [['name','ASC']] })
+      res.render('categories', { data })
+    } catch (error) {
+      res.send(error)
+    }
+  }
+
+  static async categoryDetail(req, res) {
+    try {
+      const { id } = req.params
+      const current   = await Category.findByPk(id)
+      const products  = await Product.findAll({
+        where: { CategoryId: id },
+        include: [Product.sequelize.models.User],
+        order: [['name','ASC']]
+      })
+      res.render('categoryDetail', { current, products, formatCurrency })
+    } catch (error) {
+      res.send(error)
+    }
+  }
+
   // ─── PROFILE ───────────────────────────────────────────────────────────────
 
   static async getProfile(req, res) {
@@ -249,7 +261,10 @@ class Controller {
     try {
       const user = await User.findByPk(req.session.user.id)
       const { errors } = req.query
-      res.render('editProfile', { user, errors })
+      res.render('editProfile', {
+        user,
+        errors: errors ? errors.split(',') : []
+      })
     } catch (error) {
       res.send(error)
     }
@@ -262,12 +277,13 @@ class Controller {
       const updates = { email, role }
       if (password) updates.password = password
       await User.update(updates, { where: { id } })
+      // refresh session
       req.session.user.email = email
       req.session.user.role  = role
       res.redirect('/profile')
     } catch (error) {
       if (error.name === 'SequelizeValidationError') {
-        const errors = error.errors.map(e => e.message)
+        const errors = error.errors.map(e => e.message).join(',')
         return res.redirect(`/profile/edit?errors=${errors}`)
       }
       res.send(error)
