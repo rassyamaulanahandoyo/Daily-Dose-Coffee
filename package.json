@@ -16,9 +16,9 @@
     "url": "https://github.com/rassyamaulanahandoyo/Daily-Dose-Coffee/issues"
   },
   "homepage": "https://github.com/rassyamaulanahandoyo/Daily-Dose-Coffee#readme",
-  "description": "",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
     "body-parser": "^2.2.0",
     "brcypt": "^1.0.1",
     "cors": "^2.8.5",
@@ -27,9 +27,11 @@
     "express-session": "^1.18.2",
     "js": "^0.1.0",
     "pg": "^8.16.3",
+    "qrcode": "^1.5.4",
     "sequelize": "^6.37.7"
   },
   "devDependencies": {
     "sequelize-cli": "^6.6.3"
-  }
+  },
+  "description": ""
 }

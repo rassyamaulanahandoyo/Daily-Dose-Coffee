@@ -1,65 +1,57 @@
+// app.js
+
 const express = require('express')
+const session = require('express-session')
+const path = require('path')
+const Controller = require('./controllers/controller')
+const { isAuth, isAdmin } = require('./middleware/auth')
+
 const app = express()
 const port = 3000
-const session = require('express-session')
-const Controller = require('./controllers/controller')
 
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
+app.use('/public', express.static(path.join(__dirname, 'public')))
 
 app.use(session({
-  secret: 'Secret',
+  secret: 'super-secret-key',
   resave: false,
-  saveUninitialized: false,
-  cookie: { secure: false, sameSite: true }
+  saveUninitialized: false
 }))
 
-// Roles
-const isLogin = (req, res, next) => {
-  if (!req.session.userId) {
-    const error = 'Please login first!'
-    return res.redirect(`/login?error=${error}`)
-  }
+app.use((req, res, next) => {
+  res.locals.currentUser = req.session.user || null
   next()
-}
-const isAdmin = (req, res, next) => {
-  if (req.session.role !== 'admin') {
-    const error = 'You have no access!'
-    return res.redirect(`/?error=${error}`)
-  }
-  next()
-}
-
-// Home
-app.get('/', (req, res) => {
-  const { error } = req.query
-  res.render('home', { error, userId: req.session.userId })
 })
 
-// Auth
-app.get('/register', Controller.registerForm)
-app.post('/register', Controller.postRegister)
-app.get('/login', Controller.loginForm)
-app.post('/login', Controller.postLogin)
-app.get('/logout', isLogin, Controller.getLogout)
+// Public
+app.get('/',                    Controller.landing)
+app.get('/register',            Controller.getRegister)
+app.post('/register',           Controller.postRegister)
+app.get('/login',               Controller.getLogin)
+app.post('/login',              Controller.postLogin)
 
-// Product
-app.get('/products', Controller.getProduct)
-app.get('/products/detail/:id', Controller.productDetail)
+// Protected
+app.get('/logout',              isAuth, Controller.logout)
 
-// Admin product
-app.get('/products/sell', isLogin, isAdmin, Controller.renderAddProduct)
-app.post('/products/sell', isLogin, isAdmin, Controller.addProductHandler)
-app.get('/products/update/:id', isLogin, isAdmin, Controller.updateProductPage)
-app.post('/products/update/:id', isLogin, isAdmin, Controller.updateProductHandler)
-app.get('/products/delete/:id', isLogin, isAdmin, Controller.deleteProduct)
+app.get('/products',            isAuth, Controller.products)
+app.get('/products/add',        isAuth, isAdmin, Controller.getAddProduct)
+app.post('/products/add',       isAuth, isAdmin, Controller.postAddProduct)
+app.get('/products/:id/edit',   isAuth, isAdmin, Controller.getEditProduct)
+app.post('/products/:id/edit',  isAuth, isAdmin, Controller.postEditProduct)
+app.get('/products/:id/delete', isAuth, isAdmin, Controller.getDeleteProduct)
+app.get('/products/add-to-cart/:id', isAuth, Controller.getAddToCart)
 
-// Cart
-app.get('/cart', isLogin, Controller.viewCart)
-app.post('/cart/add/:id', isLogin, Controller.addToCart)
-app.post('/checkout', isLogin, Controller.checkout)
+app.get('/cart',                isAuth, Controller.getCart)
+app.get('/checkout',            isAuth, Controller.getCheckout)
 
-// Start server
+app.get('/categories',          isAuth, Controller.categories)
+app.get('/categories/:id',      isAuth, Controller.categoryDetail)
+
+app.get('/profile',             isAuth, Controller.getProfile)
+app.get('/profile/edit',        isAuth, Controller.getEditProfile)
+app.post('/profile/edit',       isAuth, Controller.postEditProfile)
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })

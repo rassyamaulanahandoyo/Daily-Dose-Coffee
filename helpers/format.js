@@ -1,10 +1,8 @@
-function toRupiah(num) {
-    if (num === null || num === undefined) return '-';
-    return new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        maximumFractionDigits: 0
-    }).format(num);
+function formatCurrency(value) {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR'
+  }).format(value)
 }
 
-module.exports = { toRupiah };
+module.exports = formatCurrency

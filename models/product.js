@@ -1,34 +1,19 @@
-'use strict'
-const { Model, Op } = require('sequelize');
-const { toRupiah } = require('../helpers/format')
+'use strict';
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
+    get summary() {
+      return `${this.name} – ${this.description.slice(0,30)}…`;
+    }
     static associate(models) {
-      Product.belongsTo(models.Category, { foreignKey: 'categoryId' })
-      Product.belongsTo(models.User, { foreignKey: 'userId' })
+      Product.belongsTo(models.Category, { foreignKey: 'CategoryId' });
+      Product.belongsTo(models.User,     { foreignKey: 'userId', as: 'Seller' });
       Product.belongsToMany(models.User, {
         through: models.Order,
-        foreignKey: 'productId',
-        otherKey: 'userId'
-      })
-    }
-
-    static searchAndSort({ search, sort }) {
-      const where = {}
-      if (search) {
-        where.name = { [Op.iLike]: `%${search}%` }
-      }
-      const order = [];
-      if (sort === 'price_asc') order.push(['price', 'ASC'])
-      if (sort === 'price_desc') order.push(['price', 'DESC'])
-      if (sort === 'stock_desc') order.push(['stock', 'DESC'])
-
-      return this.findAll({ where, order, include: ['Category', 'User'] })
-    }
-
-    get priceRupiah() {
-      return toRupiah(this.price)
+        as: 'Buyers',
+        foreignKey: 'ProductId'
+      });
     }
   }
 
@@ -36,42 +21,37 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notEmpty: { msg: 'Name required' },
-        notNull: { msg: 'Name required' }
-      }
+      validate: { notEmpty: { msg: 'Name is required' } }
     },
     description: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notEmpty: { msg: 'Description required' },
-        notNull: { msg: 'Description required' }
-      }
+      validate: { notEmpty: { msg: 'Description is required' } }
     },
     price: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        notEmpty: { msg: 'Price required' },
-        notNull: { msg: 'Price required' },
-        min: { args: [1000], msg: 'Min price 1000' }
-      }
+      validate: { min: { args: [1], msg: 'Minimum price is 1' } }
     },
     stock: {
       type: DataTypes.INTEGER,
-      defaultValue: 0
+      allowNull: false,
+      validate: { min: { args: [0], msg: 'Stock cannot be negative' } }
     },
-    imgUrl: {
+    imageURL: {
       type: DataTypes.STRING,
-      validate: { isUrl: { msg: 'imgUrl must be a URL' } }
-    },
-    categoryId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER
+      allowNull: false,
+      validate: { notEmpty: { msg: 'Image URL is required' } }
+    }
   }, {
     sequelize,
     modelName: 'Product',
-  })
+    hooks: {
+      beforeCreate: product => {
+        if (!product.price) product.price = 1;
+      }
+    }
+  });
 
   return Product;
 };
