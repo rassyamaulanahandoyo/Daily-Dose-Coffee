@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.use(session({
-    secret: 'coffeesecret',
+    secret: 'Daily Dose Coffee',
     resave: false,
     saveUninitialized: false
 }));
