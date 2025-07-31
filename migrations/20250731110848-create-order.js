@@ -4,10 +4,11 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
     static associate(models) {
-      Order.belongsTo(models.User,    { foreignKey: 'UserId'    });
+      Order.belongsTo(models.User, { foreignKey: 'UserId' });
       Order.belongsTo(models.Product, { foreignKey: 'ProductId' });
     }
   }
+
   Order.init({
     qty: {
       type: DataTypes.INTEGER,
@@ -18,10 +19,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: 'cart'
+    },
+    UserId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    ProductId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {
     sequelize,
-    modelName: 'Order',   // <â€” this must be exactly 'Order'
+    modelName: 'Order'
   });
+
   return Order;
 };
