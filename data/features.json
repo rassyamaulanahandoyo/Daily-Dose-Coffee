@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Single Origin",
+    "description": "Beans sourced from only one farm or region"
+  },
+  {
+    "id": 2,
+    "name": "Medium Roast",
+    "description": "Balanced flavor with medium body and acidity"
+  },
+  {
+    "id": 3,
+    "name": "Dark Roast",
+    "description": "Intense flavor with smoky notes and low acidity"
+  },
+  {
+    "id": 4,
+    "name": "Light Roast",
+    "description": "Bright acidity with floral and fruity notes"
+  },
+  {
+    "id": 5,
+    "name": "Natural Process",
+    "description": "Coffee dried with cherry intact for fruity flavors"
+  },
+  {
+    "id": 6,
+    "name": "Washed Process",
+    "description": "Coffee washed to remove pulp for a clean taste"
+  },
+  {
+    "id": 7,
+    "name": "Espresso Blend",
+    "description": "Specially blended for rich espresso extraction"
+  },
+  {
+    "id": 8,
+    "name": "Drip Pack",
+    "description": "Convenient single‐serve drip bag format"
+  }
+]

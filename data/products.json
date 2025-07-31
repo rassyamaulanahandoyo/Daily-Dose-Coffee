@@ -1,0 +1,247 @@
+[
+  {
+    "name": "Kopi Gayo Arabica Single Origin Medium Roast (250g)",
+    "price": 75000,
+    "type": "Gayo Arabica",
+    "stock": 50,
+    "image": "https://via.placeholder.com/300x200?text=Gayo+Medium+Roast",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Gayo Arabica Single Origin Dark Roast (250g)",
+    "price": 78000,
+    "type": "Gayo Arabica",
+    "stock": 40,
+    "image": "https://via.placeholder.com/300x200?text=Gayo+Dark+Roast",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Gayo Arabica Natural Process Medium Roast (250g)",
+    "price": 80000,
+    "type": "Gayo Arabica",
+    "stock": 30,
+    "image": "https://via.placeholder.com/300x200?text=Gayo+Natural+Medium",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Gayo Arabica Washed Process Light Roast (250g)",
+    "price": 73000,
+    "type": "Gayo Arabica",
+    "stock": 25,
+    "image": "https://via.placeholder.com/300x200?text=Gayo+Washed+Light",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Gayo Arabica Espresso Grind (250g)",
+    "price": 77000,
+    "type": "Gayo Arabica",
+    "stock": 20,
+    "image": "https://via.placeholder.com/300x200?text=Gayo+Espresso",
+    "UserId": 1
+  },
+
+  {
+    "name": "Kopi Toraja Arabica Single Origin Medium Roast (250g)",
+    "price": 82000,
+    "type": "Toraja Arabica",
+    "stock": 60,
+    "image": "https://via.placeholder.com/300x200?text=Toraja+Medium",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Toraja Arabica Washed Process Dark Roast (250g)",
+    "price": 85000,
+    "type": "Toraja Arabica",
+    "stock": 35,
+    "image": "https://via.placeholder.com/300x200?text=Toraja+Dark+Washed",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Toraja Arabica Natural Process Light Roast (250g)",
+    "price": 79000,
+    "type": "Toraja Arabica",
+    "stock": 28,
+    "image": "https://via.placeholder.com/300x200?text=Toraja+Natural+Light",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Toraja Arabica Espresso Blend (250g)",
+    "price": 88000,
+    "type": "Toraja Arabica",
+    "stock": 22,
+    "image": "https://via.placeholder.com/300x200?text=Toraja+Espresso+Blend",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Toraja Arabica Drip Pack (10-pack)",
+    "price": 95000,
+    "type": "Toraja Arabica",
+    "stock": 15,
+    "image": "https://via.placeholder.com/300x200?text=Toraja+Drip+Pack",
+    "UserId": 1
+  },
+
+  {
+    "name": "Kopi Mandheling Classic Roast (250g)",
+    "price": 70000,
+    "type": "Mandheling",
+    "stock": 45,
+    "image": "https://via.placeholder.com/300x200?text=Mandheling+Classic",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Mandheling Dark Roast (250g)",
+    "price": 72000,
+    "type": "Mandheling",
+    "stock": 33,
+    "image": "https://via.placeholder.com/300x200?text=Mandheling+Dark",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Mandheling Single Serve Capsules (10-pack)",
+    "price": 102000,
+    "type": "Mandheling",
+    "stock": 18,
+    "image": "https://via.placeholder.com/300x200?text=Mandheling+Capsules",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Mandheling Organic Arabica Medium Roast (250g)",
+    "price": 83000,
+    "type": "Mandheling",
+    "stock": 27,
+    "image": "https://via.placeholder.com/300x200?text=Mandheling+Organic",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Mandheling Natural Process Dark Roast (250g)",
+    "price": 76000,
+    "type": "Mandheling",
+    "stock": 29,
+    "image": "https://via.placeholder.com/300x200?text=Mandheling+Natural+Dark",
+    "UserId": 1
+  },
+
+  {
+    "name": "Kopi Java Arabica Estate Medium Roast (250g)",
+    "price": 81000,
+    "type": "Java Arabica",
+    "stock": 55,
+    "image": "https://via.placeholder.com/300x200?text=Java+Medium",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Java Arabica Signature Dark Roast (250g)",
+    "price": 84000,
+    "type": "Java Arabica",
+    "stock": 21,
+    "image": "https://via.placeholder.com/300x200?text=Java+Dark",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Java Arabica Espresso Blend (500g)",
+    "price": 155000,
+    "type": "Java Arabica",
+    "stock": 14,
+    "image": "https://via.placeholder.com/300x200?text=Java+Espresso+500g",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Java Arabica Cold Brew Concentrate (250ml)",
+    "price": 42000,
+    "type": "Java Arabica",
+    "stock": 38,
+    "image": "https://via.placeholder.com/300x200?text=Java+Cold+Brew",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Java Arabica Drip Pack (10-pack)",
+    "price": 98000,
+    "type": "Java Arabica",
+    "stock": 17,
+    "image": "https://via.placeholder.com/300x200?text=Java+Drip+Pack",
+    "UserId": 1
+  },
+
+  {
+    "name": "Kopi Bali Kintamani Medium Roast (250g)",
+    "price": 79000,
+    "type": "Bali Kintamani",
+    "stock": 46,
+    "image": "https://via.placeholder.com/300x200?text=Bali+Medium",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Bali Kintamani Dark Roast (250g)",
+    "price": 82000,
+    "type": "Bali Kintamani",
+    "stock": 23,
+    "image": "https://via.placeholder.com/300x200?text=Bali+Dark",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Bali Kintamani Natural Process (250g)",
+    "price": 80000,
+    "type": "Bali Kintamani",
+    "stock": 31,
+    "image": "https://via.placeholder.com/300x200?text=Bali+Natural",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Bali Kintamani Single Serve Capsules (10-pack)",
+    "price": 99000,
+    "type": "Bali Kintamani",
+    "stock": 12,
+    "image": "https://via.placeholder.com/300x200?text=Bali+Capsules",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Bali Kintamani Organic Arabica Medium Roast (250g)",
+    "price": 86000,
+    "type": "Bali Kintamani",
+    "stock": 19,
+    "image": "https://via.placeholder.com/300x200?text=Bali+Organic",
+    "UserId": 1
+  },
+
+  {
+    "name": "Kopi Sumatra Lintong Blend (250g)",
+    "price": 78000,
+    "type": "Sumatra Lintong",
+    "stock": 41,
+    "image": "https://via.placeholder.com/300x200?text=Lintong+Blend",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Sumatra Lintong Single Origin Medium Roast (250g)",
+    "price": 80000,
+    "type": "Sumatra Lintong",
+    "stock": 34,
+    "image": "https://via.placeholder.com/300x200?text=Lintong+Medium",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Sumatra Lintong Dark Roast Espresso (250g)",
+    "price": 83000,
+    "type": "Sumatra Lintong",
+    "stock": 26,
+    "image": "https://via.placeholder.com/300x200?text=Lintong+Espresso",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Sumatra Lintong Natural Process Light Roast (250g)",
+    "price": 76000,
+    "type": "Sumatra Lintong",
+    "stock": 29,
+    "image": "https://via.placeholder.com/300x200?text=Lintong+Natural",
+    "UserId": 1
+  },
+  {
+    "name": "Kopi Sumatra Lintong Drip Pack (10-pack)",
+    "price": 92000,
+    "type": "Sumatra Lintong",
+    "stock": 16,
+    "image": "https://via.placeholder.com/300x200?text=Lintong+Drip+Pack",
+    "UserId": 1
+  }
+]

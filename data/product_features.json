@@ -1,0 +1,37 @@
+[
+  { "ProductId": 1,  "FeatureId": 1 },
+  { "ProductId": 2,  "FeatureId": 2 },
+  { "ProductId": 3,  "FeatureId": 3 },
+  { "ProductId": 4,  "FeatureId": 4 },
+  { "ProductId": 5,  "FeatureId": 5 },
+
+  { "ProductId": 6,  "FeatureId": 6 },
+  { "ProductId": 7,  "FeatureId": 7 },
+  { "ProductId": 8,  "FeatureId": 8 },
+  { "ProductId": 9,  "FeatureId": 1 },
+  { "ProductId": 10, "FeatureId": 2 },
+
+  { "ProductId": 11, "FeatureId": 3 },
+  { "ProductId": 12, "FeatureId": 4 },
+  { "ProductId": 13, "FeatureId": 5 },
+  { "ProductId": 14, "FeatureId": 6 },
+  { "ProductId": 15, "FeatureId": 7 },
+
+  { "ProductId": 16, "FeatureId": 8 },
+  { "ProductId": 17, "FeatureId": 1 },
+  { "ProductId": 18, "FeatureId": 2 },
+  { "ProductId": 19, "FeatureId": 3 },
+  { "ProductId": 20, "FeatureId": 4 },
+
+  { "ProductId": 21, "FeatureId": 5 },
+  { "ProductId": 22, "FeatureId": 6 },
+  { "ProductId": 23, "FeatureId": 7 },
+  { "ProductId": 24, "FeatureId": 8 },
+  { "ProductId": 25, "FeatureId": 1 },
+
+  { "ProductId": 26, "FeatureId": 2 },
+  { "ProductId": 27, "FeatureId": 3 },
+  { "ProductId": 28, "FeatureId": 4 },
+  { "ProductId": 29, "FeatureId": 5 },
+  { "ProductId": 30, "FeatureId": 6 }
+]
