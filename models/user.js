@@ -1,58 +1,20 @@
 'use strict';
-const bcrypt = require('bcryptjs');
 const { Model } = require('sequelize');
-
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Order extends Model {
     static associate(models) {
-      User.hasMany(models.Product, { foreignKey: 'userId', as: 'Products' });
-      User.belongsToMany(models.Product, {
-        through: models.Order,
-        as: 'CartItems',
-        foreignKey: 'UserId'
-      });
+      Order.belongsTo(models.User,    { foreignKey: 'UserId'    });
+      Order.belongsTo(models.Product, { foreignKey: 'ProductId' });
     }
   }
-
-  User.init({
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: { msg: 'Email must be unique' },
-      validate: {
-        notNull: { msg: 'Email is required' },
-        isEmail:  { msg: 'Must be a valid email' }
-      }
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: { msg: 'Password is required' },
-        len:     { args: [8], msg: 'Password must be at least 8 characters' }
-      }
-    },
-    role: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isIn: { args: [['customer','admin']], msg: 'Role must be customer or admin' }
-      }
-    }
+  Order.init({
+    qty:    { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 },
+    status: { type: DataTypes.STRING,  allowNull: false, defaultValue: 'cart' },
+    UserId:    DataTypes.INTEGER,  // <— declare here
+    ProductId: DataTypes.INTEGER   // <— and here
   }, {
     sequelize,
-    modelName: 'User',
-    hooks: {
-      beforeCreate: async user => {
-        user.password = await bcrypt.hash(user.password, 10);
-      },
-      beforeUpdate: async user => {
-        if (user.changed('password')) {
-          user.password = await bcrypt.hash(user.password, 10);
-        }
-      }
-    }
+    modelName: 'Order'
   });
-
-  return User;
+  return Order;
 };

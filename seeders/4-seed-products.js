@@ -14,9 +14,7 @@ module.exports = {
 
     // transform into the shape your Products table expects
     const data = products.map(p => {
-      // find the matching category record
       const cat = categories.find(c => c.name === p.type);
-
       return {
         name:        p.name,
         description: p.name,      // or p.description if you have one
@@ -24,13 +22,12 @@ module.exports = {
         stock:       p.stock,
         imageURL:    p.image,
         CategoryId:  cat ? cat.id : null,
-        userId:      1,           // ensure your admin user (ID=1) exists
+        UserId:      1,           // match the FK column in your migration
         createdAt:   new Date(),
         updatedAt:   new Date()
       };
     });
 
-    // bulk insert into the exact table name "Products"
     await queryInterface.bulkInsert('Products', data, {});
   },
 
