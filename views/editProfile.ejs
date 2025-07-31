@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Profile</title>
+  <link rel="stylesheet" href="/public/css/styles.css" />
+</head>
+<body>
+  <%- include('partial/navbar') %>
+  <div class="form-container">
+    <h2>Edit Profile</h2>
+    <% if (errors.length) { %>
+      <ul class="error-list"><% errors.forEach(e=>{ %><li><%=e%></li><% }) %></ul>
+    <% } %>
+    <form action="/profile/edit" method="post">
+      <label>Email</label>
+      <input name="email" value="<%=user.email%>" required>
+      <label>New Password (leave blank to keep existing)</label>
+      <input name="password" type="password" minlength="8">
+      <label>Role</label>
+      <select name="role">
+        <option value="customer" <%=user.role==='customer'?'selected':''%>>Customer</option>
+        <option value="admin"    <%=user.role==='admin'   ?'selected':''%>>Admin</option>
+      </select>
+      <button type="submit">Save</button>
+    </form>
+  </div>
+</body>
+</html>

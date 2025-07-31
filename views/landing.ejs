@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Dose Coffee</title>
+  <link rel="stylesheet" href="/public/css/styles.css" />
+</head>
+<body>
+  <%- include('partial/navbar') %>
+  <section class="hero">
+    <h1>Welcome to Daily Dose ☕</h1>
+    <p>Your specialty coffee delivered fresh.</p>
+    <% if (!currentUser) { %>
+      <a href="/login" class="btn">Login</a>
+      <a href="/register" class="btn">Register</a>
+    <% } else { %>
+      <a href="/products" class="btn">Browse Beans</a>
+    <% } %>
+  </section>
+</body>
+</html>

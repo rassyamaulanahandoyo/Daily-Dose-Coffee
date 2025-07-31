@@ -1,0 +1,48 @@
+/* Navbar container */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #6f4e37; /* coffee-brown */
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Logo */
+.navbar-logo a {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.8rem;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Nav list */
+.navbar-nav {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+/* Nav links */
+.navbar-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* Hover state */
+.navbar-nav a:hover {
+  background-color: rgba(255,255,255,0.2);
+  border-radius: 4px;
+  color: #fff;
+}
+
+/* Active link styling (optional) */
+.navbar-nav .active a {
+  border-bottom: 2px solid #f1c40f; /* golden accent */
+}

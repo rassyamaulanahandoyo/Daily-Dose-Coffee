@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout</title>
+  <link rel="stylesheet" href="/public/css/styles.css" />
+</head>
+<body>
+  <%- include('partial/navbar') %>
+  <main class="checkout-page">
+    <h1>Checkout</h1>
+    <ul>
+      <% cartItems.forEach(o=>{ %>
+        <li><%=o.qty%> × <%=o.Product.name%> = <%=formatCurrency(o.qty*o.Product.price)%></li>
+      <% }) %>
+    </ul>
+    <p>Total: <strong><%=formatCurrency(total)%></strong></p>
+    <div class="qr"><img src="<%=qrUrl%>" alt="Scan to pay"></div>
+  </main>
+</body>
+</html>

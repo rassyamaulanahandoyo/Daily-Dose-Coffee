@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
       Order.belongsTo(models.Product, { foreignKey: 'ProductId' });
     }
   }
-
   Order.init({
     qty: {
       type: DataTypes.INTEGER,
@@ -22,8 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'Order'
+    modelName: 'Order',   // <— this must be exactly 'Order'
   });
-
   return Order;
 };

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%=current.name%></title>
+  <link rel="stylesheet" href="/public/css/styles.css" />
+</head>
+<body>
+  <%- include('partial/navbar') %>
+  <main class="category-detail">
+    <h1><%=current.name%></h1>
+    <% if (!products.length) { %>
+      <p>No beans here yet.</p>
+    <% } else { %>
+      <div class="grid">
+        <% products.forEach(p=>{ %>
+          <div class="card">
+            <img src="<%=p.imageURL%>" alt="<%=p.name%>">
+            <h3><%=p.name%></h3>
+            <p><%=formatCurrency(p.price)%></p>
+            <a href="/products/add-to-cart/<%=p.id%>">Add to Cart</a>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </main>
+</body>
+</html>

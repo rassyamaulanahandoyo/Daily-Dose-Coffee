@@ -1,5 +1,3 @@
-// app.js
-
 const express = require('express')
 const session = require('express-session')
 const path = require('path')
@@ -26,20 +24,20 @@ app.use((req, res, next) => {
 
 // Public
 app.get('/',                    Controller.landing)
-app.get('/register',            Controller.getRegister)
+app.get('/register',            Controller.registerForm)      // ← was getRegister
 app.post('/register',           Controller.postRegister)
-app.get('/login',               Controller.getLogin)
+app.get('/login',               Controller.loginForm)         // ← was getLogin
 app.post('/login',              Controller.postLogin)
 
 // Protected
-app.get('/logout',              isAuth, Controller.logout)
+app.get('/logout',              isAuth, Controller.getLogout)   // ← was logout
 
 app.get('/products',            isAuth, Controller.products)
 app.get('/products/add',        isAuth, isAdmin, Controller.getAddProduct)
 app.post('/products/add',       isAuth, isAdmin, Controller.postAddProduct)
 app.get('/products/:id/edit',   isAuth, isAdmin, Controller.getEditProduct)
 app.post('/products/:id/edit',  isAuth, isAdmin, Controller.postEditProduct)
-app.get('/products/:id/delete', isAuth, isAdmin, Controller.getDeleteProduct)
+app.get('/products/:id/delete', isAuth, isAdmin, Controller.deleteProduct)
 app.get('/products/add-to-cart/:id', isAuth, Controller.getAddToCart)
 
 app.get('/cart',                isAuth, Controller.getCart)

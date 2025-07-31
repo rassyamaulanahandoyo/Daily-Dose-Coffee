@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register</title>
+  <link rel="stylesheet" href="/public/css/styles.css" />
+</head>
+<body>
+  <%- include('partial/navbar') %>
+  <div class="form-container">
+    <h2>Register</h2>
+    <% if (errors && errors.length) { %>
+      <ul class="error-list">
+        <% errors.forEach(e => { %><li><%= e %></li><% }) %>
+      </ul>
+    <% } %>
+    <form action="/register" method="post">
+      <label>Email</label>
+      <input name="email" type="email" required>
+      <label>Password</label>
+      <input name="password" type="password" minlength="8" required>
+      <label>Role</label>
+      <select name="role">
+        <option value="customer">Customer</option>
+        <option value="admin">Admin</option>
+      </select>
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+</body>
+</html>

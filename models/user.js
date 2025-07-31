@@ -1,20 +1,57 @@
 'use strict';
+const bcrypt = require('bcryptjs');
 const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
-  class Order extends Model {
+  class User extends Model {
     static associate(models) {
-      Order.belongsTo(models.User,    { foreignKey: 'UserId'    });
-      Order.belongsTo(models.Product, { foreignKey: 'ProductId' });
+      User.hasMany(models.Product, { foreignKey: 'UserId', as: 'Products' });
+      User.belongsToMany(models.Product, {
+        through: models.Order,
+        as: 'CartItems',
+        foreignKey: 'UserId'
+      });
     }
   }
-  Order.init({
-    qty:    { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 },
-    status: { type: DataTypes.STRING,  allowNull: false, defaultValue: 'cart' },
-    UserId:    DataTypes.INTEGER,  // <— declare here
-    ProductId: DataTypes.INTEGER   // <— and here
+  User.init({
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: { msg: 'Email must be unique' },
+      validate: {
+        notNull: { msg: 'Email is required' },
+        isEmail:  { msg: 'Must be a valid email' }
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: { msg: 'Password is required' },
+        len:     { args: [8], msg: 'Password must be at least 8 characters' }
+      }
+    },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isIn: { args: [['customer','admin']], msg: 'Role must be customer or admin' }
+      }
+    }
   }, {
     sequelize,
-    modelName: 'Order'
+    modelName: 'User',      // <— this must be exactly 'User'
   });
-  return Order;
+
+  // hash password on create / update
+  User.addHook('beforeCreate', async (user) => {
+    user.password = await bcrypt.hash(user.password, 10);
+  });
+  User.addHook('beforeUpdate', async (user) => {
+    if (user.changed('password')) {
+      user.password = await bcrypt.hash(user.password, 10);
+    }
+  });
+
+  return User;
 };

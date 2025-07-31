@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Coffee Selection</title>
+  <link rel="stylesheet" href="/public/css/styles.css" />
+</head>
+<body>
+  <%- include('partial/navbar') %>
+  <main class="products-page">
+    <h1>Our Coffee Selection</h1>
+
+    <form class="filter-form" method="get" action="/products">
+      <input name="search" placeholder="Search beans…" value="<%= search||'' %>"/>
+      <select name="type">
+        <option value="">All Types</option>
+        <% data.forEach(c => { %>
+          <option value="<%= c.id %>" <%= type==c.id?'selected':'' %>><%= c.name %></option>
+        <% }) %>
+      </select>
+      <select name="sort">
+        <option value="">Sort</option>
+        <option value="price_asc"  <%= sort==='price_asc' ? 'selected':'' %>>Price ↑</option>
+        <option value="price_desc" <%= sort==='price_desc'?'selected':'' %>>Price ↓</option>
+      </select>
+      <button>Apply</button>
+    </form>
+
+    <% if (productDelete) { %>
+      <p class="notice"><%= productDelete %> removed.</p>
+    <% } %>
+
+    <div class="grid">
+      <% data.forEach(p => { %>
+        <div class="card">
+          <img src="<%= p.imageURL %>" alt="<%= p.name %>">
+          <h3><%= p.name %></h3>
+          <p><%= formatCurrency(p.price) %></p>
+          <p>Stock: <%= p.stock %></p>
+          <p>Seller: <%= p.Seller.email %></p>
+          <div class="actions">
+            <% if (currentUser && currentUser.role==='admin') { %>
+              <a href="/products/<%= p.id %>/edit">Edit</a>
+              <a href="/products/<%= p.id %>/delete">Delete</a>
+            <% } %>
+            <a href="/products/add-to-cart/<%= p.id %>">Add to Cart</a>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </main>
+</body>
+</html>
