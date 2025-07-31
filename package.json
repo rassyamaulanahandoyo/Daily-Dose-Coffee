@@ -1,0 +1,32 @@
+{
+  "name": "daily-dose-coffee",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rassyamaulanahandoyo/Daily-Dose-Coffee.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rassyamaulanahandoyo/Daily-Dose-Coffee/issues"
+  },
+  "homepage": "https://github.com/rassyamaulanahandoyo/Daily-Dose-Coffee#readme",
+  "description": "",
+  "dependencies": {
+    "brcypt": "^1.0.1",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "js": "^0.1.0",
+    "pg": "^8.16.3",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.3"
+  }
+}
