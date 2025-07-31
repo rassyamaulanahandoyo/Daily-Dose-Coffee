@@ -1,41 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Add Product</title>
-  <link rel="stylesheet" href="/public/css/styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Product — Daily Dose</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{ --primary:#2d2a26; --accent:#c49a6c; --bg:#faf7f2; --ink:#1e1c19; --line:#e9e4da }
+    *{margin:0;padding:0;box-sizing:border-box} html,body{height:100%}
+    body{font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+    h1,h2,h3{font-family:"Playfair Display",serif;color:var(--primary)} a{text-decoration:none;color:inherit}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+    .navbar{position:fixed;top:0;left:0;right:0;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 7%;background:rgba(250,247,242,.85);backdrop-filter:saturate(180%) blur(6px);border-bottom:1px solid var(--line);z-index:1000}
+    .navbar-logo a{font-family:"Playfair Display",serif;font-weight:700;font-size:1.6rem;letter-spacing:.4px;color:var(--primary)}
+    .navbar-nav{list-style:none;display:flex;gap:1.2rem}
+    .navbar-nav li a{padding-bottom:2px;border-bottom:1px solid transparent}
+    .navbar-nav li a:hover{border-color:var(--primary)}
+    .nav-spacer{height:68px}
+    main.section{padding:4rem 7%} .container{max-width:1120px;margin:0 auto}
+    .form-card{max-width:640px;margin:2rem auto;background:#fff;border:1px solid var(--line);border-radius:16px;padding:2rem;box-shadow:0 10px 30px rgba(0,0,0,.04)}
+    .form-title{font-size:1.6rem;margin-bottom:.25rem}
+    .form-subtitle{color:#6a6258;margin-bottom:1rem}
+    .alert{padding:.75rem 1rem;border-radius:10px;margin:.75rem 0}
+    .alert-error{background:#fff2f2;border:1px solid #ffd6d6;color:#b42318}
+    .error-list{margin-left:1rem}
+    .form-grid{display:grid;gap:.9rem} .form-grid label{font-weight:600;color:var(--primary)}
+    .form-grid input,.form-grid textarea,.form-grid select{border:1px solid var(--line);border-radius:10px;padding:.7rem .9rem;background:#fff;color:var(--ink)}
+    .form-grid textarea{min-height:120px;resize:vertical}
+    .form-grid input:focus,.form-grid textarea:focus,.form-grid select:focus{outline:2px solid var(--accent);outline-offset:2px}
+    .btn{display:inline-block;padding:.9rem 1.6rem;border-radius:999px;border:1px solid transparent;background:var(--primary);color:#fff;font-weight:600}
+    .btn:hover{opacity:.96;transform:translateY(-1px)}
+  </style>
 </head>
 <body>
-  <%- include('partial/navbar') %>
-  <div class="form-container">
-    <h2>Add New Bean</h2>
-    <% if (errors && errors.length) { %>
-      <ul class="error-list">
-        <% errors.forEach(m => { %>
-          <li><%= m %></li>
-        <% }) %>
-      </ul>
-    <% } %>
-    <form action="/products/add" method="post">
-      <label>Name</label>
-      <input name="name" required>
-      <label>Description</label>
-      <textarea name="description" required></textarea>
-      <label>Price</label>
-      <input name="price" type="number" min="1" required>
-      <label>Stock</label>
-      <input name="stock" type="number" min="0" required>
-      <label>Image URL</label>
-      <input name="imageURL" type="url" required>
-      <label>Category</label>
-      <select name="CategoryId" required>
-        <option value="">-- choose --</option>
-        <% data.categories.forEach(c => { %>
-          <option value="<%= c.id %>"><%= c.name %></option>
-        <% }) %>
-      </select>
-      <button type="submit">Add Bean</button>
-    </form>
-  </div>
+  <nav class="navbar">
+    <div class="navbar-logo"><a href="/">Daily Dose Coffee</a></div>
+    <ul class="navbar-nav">
+      <li><a href="/">Home</a></li>
+      <% if (currentUser) { %>
+        <li><a href="/products">Products</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/cart">Cart</a></li>
+        <% if (currentUser.role === 'admin') { %><li><a href="/products/add">Add Product</a></li><% } %>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/logout">Logout</a></li>
+      <% } else { %>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></li>
+      <% } %>
+    </ul>
+  </nav>
+  <div class="nav-spacer" aria-hidden="true"></div>
+
+  <main class="section">
+    <div class="container">
+      <div class="form-card">
+        <h1 class="form-title">Add New Bean</h1>
+        <p class="form-subtitle">Create a product with details below.</p>
+        <% if (errors && errors.length) { %>
+          <div class="alert alert-error">
+            <ul class="error-list"><% errors.forEach(m => { %><li><%= m %></li><% }) %></ul>
+          </div>
+        <% } %>
+        <form action="/products/add" method="post" class="form-grid" novalidate>
+          <label for="name">Name</label>
+          <input id="name" name="name" required>
+
+          <label for="description">Description</label>
+          <textarea id="description" name="description" required></textarea>
+
+          <label for="price">Price</label>
+          <input id="price" name="price" type="number" min="1" required>
+
+          <label for="stock">Stock</label>
+          <input id="stock" name="stock" type="number" min="0" required>
+
+          <label for="imageURL">Image URL</label>
+          <input id="imageURL" name="imageURL" type="url" required>
+
+          <label for="CategoryId">Category</label>
+          <select id="CategoryId" name="CategoryId" required>
+            <option value="">-- Choose --</option>
+            <% (data.categories || []).forEach(c => { %>
+              <option value="<%= c.id %>"><%= c.name %></option>
+            <% }) %>
+          </select>
+
+          <button type="submit" class="btn">Add Bean</button>
+        </form>
+      </div>
+    </div>
+  </main>
 </body>
 </html>

@@ -1,16 +1,14 @@
-// controllers/controller.js
-
-const { User, Category, Product, Order } = require('../models')
+const { User, Category, Product, Order, Detail } = require('../models')
 const bcrypt = require('bcryptjs')
 const { Op } = require('sequelize')
 const formatCurrency = require('../helpers/helper')
 const qrCode = require('qrcode')
 
 class Controller {
-  // ─── PUBLIC ────────────────────────────────────────────────────────────────
+  // PUBLIC 
 
   static landing(req, res) {
-    res.render('landing')
+    res.render('landing', {formatCurrency})
   }
 
   static registerForm(req, res) {
@@ -32,7 +30,6 @@ class Controller {
   }
 
   static loginForm(req, res) {
-    // Pass `error` (string) or `null`
     res.render('login', { error: req.query.error || null })
   }
 
@@ -65,43 +62,47 @@ class Controller {
 
   // ─── PRODUCTS ──────────────────────────────────────────────────────────────
 
-  static async products(req, res) {
-    try {
-      const { search, type, productDelete, sort } = req.query
-      const where = {}
-      if (search) where.name = { [Op.iLike]: `%${search}%` }
-      if (type)  where.CategoryId = type
+static async products(req, res) {
+  try {
+    const { search, type, productDelete, sort } = req.query;
 
-      let order = [['name','ASC']]
-      if (sort === 'price_asc')  order = [['price','ASC']]
-      if (sort === 'price_desc') order = [['price','DESC']]
+    const where = {};
+    if (search) {
+      where.name = { [Op.iLike]: `%${search}%` }; 
+    }
 
-      const data = await Product.findAll({
+    const typeId = Number(type) || null; 
+    if (typeId) where.CategoryId = typeId;
+
+    let order = [['name', 'ASC']];
+    if (sort === 'price_asc') order = [['price', 'ASC']];
+    if (sort === 'price_desc') order = [['price', 'DESC']];
+
+    const [products, categories] = await Promise.all([
+      Product.findAll({
         include: [
-          { model: User,    attributes: ['email'], as: 'Seller' },
-          { model: Category }
+          { model: User, attributes: ['email'], as: 'Seller' },
+          { model: Category },
         ],
         where,
-        order
-      })
+        order,
+      }),
+      Category.findAll({ order: [['name', 'ASC']] }),
+    ]);
 
-      // console.log("<---ERROR PRODUCTS", data);
-      // res.send(data)
-
-      res.render('products', {
-        data,
-        productDelete: productDelete || null,
-        search: search || '',
-        type: type || '',
-        sort: sort || '',
-        formatCurrency
-      })
-
-
-    } catch (error) {
-      res.send(error)
-    }
+    res.render('products', {
+      data: products,
+      categories,            // <-- pass categories explicitly
+      productDelete: productDelete || null,
+      search: search || '',
+      type: typeId || '',    // keep value for form
+      sort: sort || '',
+      formatCurrency,
+    });
+  } catch (error) {
+    res.send(error);
   }
+}
 
     static async getAddProduct(req, res) {
     try {

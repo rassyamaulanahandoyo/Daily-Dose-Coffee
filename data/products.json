@@ -4,7 +4,7 @@
     "price": 75000,
     "type": "Gayo Arabica",
     "stock": 50,
-    "image": "https://via.placeholder.com/300x200?text=Gayo+Medium+Roast",
+    "imageURL": "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -12,7 +12,7 @@
     "price": 78000,
     "type": "Gayo Arabica",
     "stock": 40,
-    "image": "https://via.placeholder.com/300x200?text=Gayo+Dark+Roast",
+    "imageURL": "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -20,7 +20,7 @@
     "price": 80000,
     "type": "Gayo Arabica",
     "stock": 30,
-    "image": "https://via.placeholder.com/300x200?text=Gayo+Natural+Medium",
+    "imageURL": "https://images.unsplash.com/photo-1481391032119-d89fee407e44?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -28,7 +28,7 @@
     "price": 73000,
     "type": "Gayo Arabica",
     "stock": 25,
-    "image": "https://via.placeholder.com/300x200?text=Gayo+Washed+Light",
+    "imageURL": "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -36,7 +36,7 @@
     "price": 77000,
     "type": "Gayo Arabica",
     "stock": 20,
-    "image": "https://via.placeholder.com/300x200?text=Gayo+Espresso",
+    "imageURL": "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
 
@@ -45,7 +45,7 @@
     "price": 82000,
     "type": "Toraja Arabica",
     "stock": 60,
-    "image": "https://via.placeholder.com/300x200?text=Toraja+Medium",
+    "imageURL": "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -53,7 +53,7 @@
     "price": 85000,
     "type": "Toraja Arabica",
     "stock": 35,
-    "image": "https://via.placeholder.com/300x200?text=Toraja+Dark+Washed",
+    "imageURL": "https://images.unsplash.com/photo-1510627498534-cf7e9002facc?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -61,15 +61,15 @@
     "price": 79000,
     "type": "Toraja Arabica",
     "stock": 28,
-    "image": "https://via.placeholder.com/300x200?text=Toraja+Natural+Light",
+    "imageURL": "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
-    "name": "Kopi Toraja Arabica Espresso Blend (250g)",
+    "name": "Kopi Toraja Arabica Espresso Blend (500g)",
     "price": 88000,
     "type": "Toraja Arabica",
     "stock": 22,
-    "image": "https://via.placeholder.com/300x200?text=Toraja+Espresso+Blend",
+    "imageURL": "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -77,7 +77,7 @@
     "price": 95000,
     "type": "Toraja Arabica",
     "stock": 15,
-    "image": "https://via.placeholder.com/300x200?text=Toraja+Drip+Pack",
+    "imageURL": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
 
@@ -86,7 +86,7 @@
     "price": 70000,
     "type": "Mandheling",
     "stock": 45,
-    "image": "https://via.placeholder.com/300x200?text=Mandheling+Classic",
+    "imageURL": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -94,7 +94,7 @@
     "price": 72000,
     "type": "Mandheling",
     "stock": 33,
-    "image": "https://via.placeholder.com/300x200?text=Mandheling+Dark",
+    "imageURL": "https://images.unsplash.com/photo-1498804103079-a6351b050096?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -102,7 +102,7 @@
     "price": 102000,
     "type": "Mandheling",
     "stock": 18,
-    "image": "https://via.placeholder.com/300x200?text=Mandheling+Capsules",
+    "imageURL": "https://images.unsplash.com/photo-1512568400610-62da28bc8a13?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -110,7 +110,7 @@
     "price": 83000,
     "type": "Mandheling",
     "stock": 27,
-    "image": "https://via.placeholder.com/300x200?text=Mandheling+Organic",
+    "imageURL": "https://images.unsplash.com/photo-1501959915551-4e8a04a39b39?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -118,7 +118,7 @@
     "price": 76000,
     "type": "Mandheling",
     "stock": 29,
-    "image": "https://via.placeholder.com/300x200?text=Mandheling+Natural+Dark",
+    "imageURL": "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
 
@@ -127,7 +127,7 @@
     "price": 81000,
     "type": "Java Arabica",
     "stock": 55,
-    "image": "https://via.placeholder.com/300x200?text=Java+Medium",
+    "imageURL": "https://images.unsplash.com/photo-1495774539583-885e02cca8c1?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -135,7 +135,7 @@
     "price": 84000,
     "type": "Java Arabica",
     "stock": 21,
-    "image": "https://via.placeholder.com/300x200?text=Java+Dark",
+    "imageURL": "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -143,7 +143,7 @@
     "price": 155000,
     "type": "Java Arabica",
     "stock": 14,
-    "image": "https://via.placeholder.com/300x200?text=Java+Espresso+500g",
+    "imageURL": "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -151,7 +151,7 @@
     "price": 42000,
     "type": "Java Arabica",
     "stock": 38,
-    "image": "https://via.placeholder.com/300x200?text=Java+Cold+Brew",
+    "imageURL": "https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -159,7 +159,7 @@
     "price": 98000,
     "type": "Java Arabica",
     "stock": 17,
-    "image": "https://via.placeholder.com/300x200?text=Java+Drip+Pack",
+    "imageURL": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
 
@@ -168,7 +168,7 @@
     "price": 79000,
     "type": "Bali Kintamani",
     "stock": 46,
-    "image": "https://via.placeholder.com/300x200?text=Bali+Medium",
+    "imageURL": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -176,7 +176,7 @@
     "price": 82000,
     "type": "Bali Kintamani",
     "stock": 23,
-    "image": "https://via.placeholder.com/300x200?text=Bali+Dark",
+    "imageURL": "https://images.unsplash.com/photo-1498804103079-a6351b050096?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -184,7 +184,7 @@
     "price": 80000,
     "type": "Bali Kintamani",
     "stock": 31,
-    "image": "https://via.placeholder.com/300x200?text=Bali+Natural",
+    "imageURL": "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -192,7 +192,7 @@
     "price": 99000,
     "type": "Bali Kintamani",
     "stock": 12,
-    "image": "https://via.placeholder.com/300x200?text=Bali+Capsules",
+    "imageURL": "https://images.unsplash.com/photo-1512568400610-62da28bc8a13?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -200,7 +200,7 @@
     "price": 86000,
     "type": "Bali Kintamani",
     "stock": 19,
-    "image": "https://via.placeholder.com/300x200?text=Bali+Organic",
+    "imageURL": "https://images.unsplash.com/photo-1481391032119-d89fee407e44?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
 
@@ -209,7 +209,7 @@
     "price": 78000,
     "type": "Sumatra Lintong",
     "stock": 41,
-    "image": "https://via.placeholder.com/300x200?text=Lintong+Blend",
+    "imageURL": "https://images.unsplash.com/photo-1498804103079-a6351b050096?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -217,7 +217,7 @@
     "price": 80000,
     "type": "Sumatra Lintong",
     "stock": 34,
-    "image": "https://via.placeholder.com/300x200?text=Lintong+Medium",
+    "imageURL": "https://images.unsplash.com/photo-1501959915551-4e8a04a39b39?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -225,7 +225,7 @@
     "price": 83000,
     "type": "Sumatra Lintong",
     "stock": 26,
-    "image": "https://via.placeholder.com/300x200?text=Lintong+Espresso",
+    "imageURL": "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -233,7 +233,7 @@
     "price": 76000,
     "type": "Sumatra Lintong",
     "stock": 29,
-    "image": "https://via.placeholder.com/300x200?text=Lintong+Natural",
+    "imageURL": "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   },
   {
@@ -241,7 +241,7 @@
     "price": 92000,
     "type": "Sumatra Lintong",
     "stock": 16,
-    "image": "https://via.placeholder.com/300x200?text=Lintong+Drip+Pack",
+    "imageURL": "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=1200&auto=format&fit=crop",
     "UserId": 1
   }
 ]

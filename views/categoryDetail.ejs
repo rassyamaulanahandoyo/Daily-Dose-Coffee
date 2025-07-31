@@ -1,25 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title><%=current.name%></title>
-  <link rel="stylesheet" href="/public/css/styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= current.name %> — Daily Dose</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{ --primary:#2d2a26; --accent:#c49a6c; --bg:#faf7f2; --ink:#1e1c19; --line:#e9e4da }
+    *{margin:0;padding:0;box-sizing:border-box} body{font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+    h1,h2,h3{font-family:"Playfair Display",serif;color:var(--primary)} a{text-decoration:none;color:inherit}
+    .navbar{position:fixed;top:0;left:0;right:0;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 7%;background:rgba(250,247,242,.85);border-bottom:1px solid var(--line)}
+    .navbar-logo a{font-family:"Playfair Display",serif;font-weight:700;font-size:1.6rem;color:var(--primary)} .navbar-nav{list-style:none;display:flex;gap:1.2rem}
+    .nav-spacer{height:68px}
+    main.section{padding:3rem 7%}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
+    @media (max-width:1200px){ .grid{grid-template-columns:repeat(3,1fr)} }
+    @media (max-width:900px){ .grid{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:600px){ .grid{grid-template-columns:1fr} }
+    .card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+    .card img{width:100%;height:180px;object-fit:cover}
+    .card-body{padding:1rem;display:grid;gap:.35rem}
+    .price{font-weight:700;color:var(--primary)}
+    .actions{display:flex;gap:.5rem;padding:1rem;border-top:1px solid var(--line);margin-top:auto}
+    .actions a{display:inline-block;padding:.55rem .9rem;border-radius:10px;border:1px solid var(--line)}
+    .actions .primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .muted{color:#6a6258}
+  </style>
 </head>
 <body>
-  <%- include('partial/navbar') %>
-  <main class="category-detail">
-    <h1><%=current.name%></h1>
+  <nav class="navbar">
+    <div class="navbar-logo"><a href="/">Daily Dose Coffee</a></div>
+    <ul class="navbar-nav">
+      <li><a href="/">Home</a></li>
+      <% if (currentUser) { %>
+        <li><a href="/products">Products</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/cart">Cart</a></li>
+        <% if (currentUser.role === 'admin') { %><li><a href="/products/add">Add Product</a></li><% } %>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/logout">Logout</a></li>
+      <% } else { %>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></li>
+      <% } %>
+    </ul>
+  </nav>
+  <div class="nav-spacer"></div>
+
+  <main class="section category-detail">
+    <h1><%= current.name %></h1>
     <% if (!products.length) { %>
-      <p>No beans here yet.</p>
+      <p class="muted">No beans here yet.</p>
     <% } else { %>
       <div class="grid">
         <% products.forEach(p=>{ %>
-          <div class="card">
-            <img src="<%=p.imageURL%>" alt="<%=p.name%>">
-            <h3><%=p.name%></h3>
-            <p><%=formatCurrency(p.price)%></p>
-            <a href="/products/add-to-cart/<%=p.id%>">Add to Cart</a>
-          </div>
+          <article class="card">
+            <img src="<%= p.imageURL %>" alt="<%= p.name %>">
+            <div class="card-body">
+              <h3><%= p.name %></h3>
+              <div class="price"><%= formatCurrency(p.price) %></div>
+            </div>
+            <div class="actions">
+              <% if (currentUser) { %>
+                <a class="primary" href="/products/add-to-cart/<%= p.id %>">Add to Cart</a>
+              <% } else { %>
+                <a class="primary" href="/login">Login to buy</a>
+              <% } %>
+            </div>
+          </article>
         <% }) %>
       </div>
     <% } %>

@@ -17,12 +17,12 @@ module.exports = {
       const cat = categories.find(c => c.name === p.type);
       return {
         name:        p.name,
-        description: p.name,      // or p.description if you have one
+        description: p.name,      
         price:       p.price,
         stock:       p.stock,
-        imageURL:    p.image,
+        imageURL:    p.imageURL,
         CategoryId:  cat ? cat.id : null,
-        UserId:      1,           // match the FK column in your migration
+        UserId:      1,           
         createdAt:   new Date(),
         updatedAt:   new Date()
       };
@@ -32,6 +32,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Products', null, {});
+    await queryInterface.bulkDelete('Products', null, {truncate: true, restartIdentity:1});
   }
 };

@@ -4,7 +4,7 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Detail extends Model {
     static associate(models) {
-      // no direct associations
+      Detail.belongsTo(models.Product, { foreignKey: 'ProductId', as: 'Product' });
     }
   }
 
@@ -15,9 +15,13 @@ module.exports = (sequelize, DataTypes) => {
       validate: { notEmpty: { msg: 'Detail name is required' } }
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT, // allow long paragraphs
       allowNull: false,
       validate: { notEmpty: { msg: 'Description is required' } }
+    },
+    ProductId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {
     sequelize,

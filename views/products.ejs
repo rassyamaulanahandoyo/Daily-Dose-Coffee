@@ -1,53 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Our Coffee Selection</title>
-  <link rel="stylesheet" href="/public/css/styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Coffee Selection — Daily Dose</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{ --primary:#2d2a26; --accent:#c49a6c; --bg:#faf7f2; --ink:#1e1c19; --line:#e9e4da; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html,body{height:100%}
+    body{font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    h1,h2,h3{font-family:"Playfair Display",serif;letter-spacing:.2px;color:var(--primary)}
+    a{text-decoration:none;color:inherit}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+    /* NAVBAR */
+    .navbar{position:fixed;top:0;left:0;right:0;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 7%;background:rgba(250,247,242,.85);backdrop-filter:saturate(180%) blur(6px);border-bottom:1px solid var(--line);z-index:1000}
+    .navbar-logo a{font-family:"Playfair Display",serif;font-weight:700;font-size:1.6rem;letter-spacing:.4px;color:var(--primary)}
+    .navbar-nav{list-style:none;display:flex;align-items:center;gap:1.2rem}
+    .navbar-nav li a{display:inline-block;padding-bottom:2px;font-size:.98rem;color:var(--primary);border-bottom:1px solid transparent;transition:border-color .18s ease,opacity .18s ease}
+    .navbar-nav li a:hover{border-color:var(--primary);opacity:.9}
+    .nav-spacer{height:68px}
+
+    /* PAGE WRAPPER */
+    main.products-page{padding:3rem 7% 4rem}
+    .page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:1.2rem}
+    .page-head h1{font-size:clamp(1.8rem,3vw,2.2rem)}
+
+    /* FILTER FORM */
+    .filter-form{display:grid;grid-template-columns:1.2fr .8fr .6fr auto;gap:.75rem;align-items:end;margin:1rem 0 1.2rem}
+    .filter-form input,.filter-form select{height:44px;border:1px solid var(--line);border-radius:10px;padding:0 .9rem;background:#fff;color:var(--ink)}
+    .filter-form input::placeholder{color:#9b9388}
+    .filter-form input:focus,.filter-form select:focus{outline:2px solid var(--accent);outline-offset:2px}
+    .btn{display:inline-block;padding:.9rem 1.2rem;border-radius:12px;border:1px solid transparent;background:var(--primary);color:#fff;font-weight:600;font-size:.95rem;letter-spacing:.2px;transition:transform .12s ease,background .18s ease,opacity .18s ease}
+    .btn:hover{transform:translateY(-1px);opacity:.96}
+
+    /* NOTICE */
+    .notice{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:.75rem 1rem;margin:1rem 0;color:#4a433b}
+
+    /* GRID */
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-top:.8rem}
+    @media (max-width:1200px){ .grid{grid-template-columns:repeat(3,1fr)} }
+    @media (max-width:900px){ .grid{grid-template-columns:repeat(2,1fr)} .filter-form{grid-template-columns:1fr 1fr 1fr auto} }
+    @media (max-width:600px){ .grid{grid-template-columns:1fr} .filter-form{grid-template-columns:1fr;gap:.6rem} }
+
+    .card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+    .card img{width:100%;height:180px;object-fit:cover}
+    .card-body{padding:1rem;display:grid;gap:.35rem}
+    .card h3{font-size:1.05rem}
+    .meta{display:flex;gap:.6rem;flex-wrap:wrap;color:#6a6258;font-size:.92rem}
+    .price{font-weight:700;color:var(--primary)}
+    .seller{font-size:.9rem;color:#6a6258}
+    .actions{display:flex;gap:.5rem;padding:1rem;border-top:1px solid var(--line);margin-top:auto}
+    .actions a{display:inline-block;padding:.55rem .9rem;border-radius:10px;border:1px solid var(--line)}
+    .actions a:hover{border-color:var(--primary)}
+    .actions .primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+    /* FOOTER */
+    .site-footer{background:#fff;border-top:1px solid var(--line);margin-top:3rem}
+    .footer-inner{padding:1rem 0;text-align:center}
+  </style>
 </head>
 <body>
-  <%- include('partial/navbar') %>
-  <main class="products-page">
-    <h1>Our Coffee Selection</h1>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-logo"><a href="/">Daily Dose Coffee</a></div>
+    <ul class="navbar-nav">
+      <li><a href="/">Home</a></li>
+      <% if (currentUser) { %>
+        <li><a href="/products">Products</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/cart">Cart</a></li>
+        <% if (currentUser.role === 'admin') { %>
+          <li><a href="/products/add">Add Product</a></li>
+        <% } %>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/logout">Logout</a></li>
+      <% } else { %>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></li>
+      <% } %>
+    </ul>
+  </nav>
+  <div class="nav-spacer" aria-hidden="true"></div>
 
+  <main class="products-page">
+    <div class="page-head">
+      <h1>Our Coffee Selection</h1>
+      <% if (productDelete) { %>
+        <div class="notice"><%= productDelete %> removed.</div>
+      <% } %>
+    </div>
+
+    <!-- FILTERS -->
     <form class="filter-form" method="get" action="/products">
-      <input name="search" placeholder="Search beans…" value="<%= search||'' %>"/>
+      <input name="search" placeholder="Search beans…" value="<%= search || '' %>" />
+
       <select name="type">
         <option value="">All Types</option>
-        <% data.forEach(c => { %>
-          <option value="<%= c.id %>" <%= type==c.id?'selected':'' %>><%= c.name %></option>
+        <% categories.forEach(c => { %>
+          <option value="<%= c.id %>" <%= String(type)===String(c.id) ? 'selected' : '' %>><%= c.name %></option>
         <% }) %>
       </select>
+
       <select name="sort">
         <option value="">Sort</option>
-        <option value="price_asc"  <%= sort==='price_asc' ? 'selected':'' %>>Price ↑</option>
-        <option value="price_desc" <%= sort==='price_desc'?'selected':'' %>>Price ↓</option>
+        <option value="price_asc"  <%= sort==='price_asc'  ? 'selected' : '' %>>Price ↑</option>
+        <option value="price_desc" <%= sort==='price_desc' ? 'selected' : '' %>>Price ↓</option>
       </select>
-      <button>Apply</button>
+
+      <button class="btn" type="submit">Apply</button>
     </form>
 
-    <% if (productDelete) { %>
-      <p class="notice"><%= productDelete %> removed.</p>
-    <% } %>
-
+    <!-- GRID -->
     <div class="grid">
-      <% data.forEach(p => { %>
-        <div class="card">
-          <img src="<%= p.imageURL %>" alt="<%= p.name %>">
-          <h3><%= p.name %></h3>
-          <p><%= formatCurrency(p.price) %></p>
-          <p>Stock: <%= p.stock %></p>
-          <p>Seller: <%= p.Seller.email %></p>
-          <div class="actions">
-            <% if (currentUser && currentUser.role==='admin') { %>
-              <a href="/products/<%= p.id %>/edit">Edit</a>
-              <a href="/products/<%= p.id %>/delete">Delete</a>
-            <% } %>
-            <a href="/products/add-to-cart/<%= p.id %>">Add to Cart</a>
-          </div>
-        </div>
-      <% }) %>
+      <% if (data && data.length) { %>
+        <% data.forEach(p => { %>
+          <article class="card">
+            <img src="<%= p.imageURL %>" alt="<%= p.name %>">
+            <div class="card-body">
+              <h3><%= p.name %></h3>
+              <div class="meta">
+                <span class="price"><%= formatCurrency(p.price) %></span>
+                <span>• Stock: <%= p.stock %></span>
+              </div>
+              <div class="seller">Seller: <%= p.Seller ? p.Seller.email : '-' %></div>
+            </div>
+            <div class="actions">
+              <% if (currentUser && currentUser.role==='admin') { %>
+                <a href="/products/<%= p.id %>/edit">Edit</a>
+                <a href="/products/<%= p.id %>/delete" onclick="return confirm('Delete <%= p.name.replace(/"/g,'&quot;') %>?')">Delete</a>
+              <% } %>
+              <% if (currentUser) { %>
+                <a class="primary" href="/products/add-to-cart/<%= p.id %>">Add to Cart</a>
+              <% } else { %>
+                <a class="primary" href="/login">Login to buy</a>
+              <% } %>
+            </div>
+          </article>
+        <% }) %>
+      <% } else { %>
+        <p class="muted">No products found. Try adjusting your filters.</p>
+      <% } %>
     </div>
   </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="muted">© <span id="year"></span> Daily Dose Coffee</div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
 </body>
 </html>

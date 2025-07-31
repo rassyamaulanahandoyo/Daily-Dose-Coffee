@@ -1,30 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Your Cart</title>
-  <link rel="stylesheet" href="/public/css/styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart — Daily Dose</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{ --primary:#2d2a26; --accent:#c49a6c; --bg:#faf7f2; --ink:#1e1c19; --line:#e9e4da }
+    *{margin:0;padding:0;box-sizing:border-box} html,body{height:100%}
+    body{font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+    h1,h2,h3{font-family:"Playfair Display",serif;color:var(--primary)} a{text-decoration:none;color:inherit}
+    .navbar{position:fixed;top:0;left:0;right:0;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 7%;background:rgba(250,247,242,.85);border-bottom:1px solid var(--line);z-index:1000}
+    .navbar-logo a{font-family:"Playfair Display",serif;font-weight:700;font-size:1.6rem;color:var(--primary)}
+    .navbar-nav{list-style:none;display:flex;gap:1.2rem}
+    .nav-spacer{height:68px}
+    main.section{padding:3rem 7%}
+    .container{max-width:1120px;margin:0 auto}
+    .table-wrap{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:0.9rem 1rem;border-bottom:1px solid var(--line)}
+    th{text-align:left;background:#fcfaf6;color:#4a433b}
+    tr:last-child td{border-bottom:0}
+    .empty{color:#6a6258}
+    .totals{display:flex;justify-content:flex-end;gap:1rem;margin:1rem 0;align-items:center}
+    .btn{display:inline-block;padding:.8rem 1.2rem;border-radius:12px;border:1px solid transparent;background:var(--primary);color:#fff;font-weight:600}
+    .btn:hover{opacity:.96;transform:translateY(-1px)}
+  </style>
 </head>
 <body>
-  <%- include('partial/navbar') %>
-  <main class="cart-page">
-    <h1>Your Cart</h1>
-    <% if (!cartItems.length) { %>
-      <p>Your cart is empty.</p>
-    <% } else { %>
-      <table>
-        <tr><th>Bean</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr>
-        <% cartItems.forEach(o=>{ %>
-          <tr>
-            <td><%=o.Product.name%></td>
-            <td><%=o.qty%></td>
-            <td><%=formatCurrency(o.Product.price)%></td>
-            <td><%=formatCurrency(o.qty*o.Product.price)%></td>
-          </tr>
-        <% }) %>
-      </table>
-      <a href="/checkout" class="btn">Checkout</a>
-    <% } %>
+  <nav class="navbar">
+    <div class="navbar-logo"><a href="/">Daily Dose Coffee</a></div>
+    <ul class="navbar-nav">
+      <li><a href="/">Home</a></li>
+      <% if (currentUser) { %>
+        <li><a href="/products">Products</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/cart">Cart</a></li>
+        <% if (currentUser.role === 'admin') { %><li><a href="/products/add">Add Product</a></li><% } %>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/logout">Logout</a></li>
+      <% } else { %>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></li>
+      <% } %>
+    </ul>
+  </nav>
+  <div class="nav-spacer"></div>
+
+  <main class="section">
+    <div class="container">
+      <h1>Your Cart</h1>
+      <br>
+      <% if (!cartItems.length) { %>
+        <p class="empty">Your cart is empty.</p>
+      <% } else { %>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Bean</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr></thead>
+            <tbody>
+              <% let total = 0; %>
+              <% cartItems.forEach(o => { const sub = o.qty * o.Product.price; total += sub; %>
+                <tr>
+                  <td><%= o.Product.name %></td>
+                  <td><%= o.qty %></td>
+                  <td><%= formatCurrency(o.Product.price) %></td>
+                  <td><%= formatCurrency(sub) %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+        <div class="totals">
+          <div><strong>Total:</strong> <%= formatCurrency(total) %></div>
+          <a href="/checkout" class="btn">Checkout</a>
+        </div>
+      <% } %>
+    </div>
   </main>
 </body>
 </html>

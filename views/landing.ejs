@@ -4,19 +4,189 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Daily Dose Coffee</title>
-  <link rel="stylesheet" href="/public/css/styles.css" />
+  <%- include('partial/css') %>
 </head>
 <body>
-  <%- include('partial/navbar') %>
-  <section class="hero">
-    <h1>Welcome to Daily Dose ☕</h1>
-    <p>Your specialty coffee delivered fresh.</p>
-    <% if (!currentUser) { %>
-      <a href="/login" class="btn">Login</a>
-      <a href="/register" class="btn">Register</a>
-    <% } else { %>
-      <a href="/products" class="btn">Browse Beans</a>
-    <% } %>
+  <!-- NAVBAR (as provided) -->
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <a href="/">Daily Dose Coffee</a>
+    </div>
+    <ul class="navbar-nav">
+      <li><a href="/">Home</a></li>
+      <% if (currentUser) { %>
+        <li><a href="/products">Products</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/cart">Cart</a></li>
+        <% if (currentUser.role === 'admin') { %>
+          <li><a href="/products/add">Add Product</a></li>
+        <% } %>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/logout">Logout</a></li>
+      <% } else { %>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></li>
+      <% } %>
+    </ul>
+  </nav>
+
+  <div class="nav-spacer" aria-hidden="true"></div>
+
+  <!-- HERO -->
+  <section class="hero" role="banner">
+    <div class="content">
+      <h1>Specialty Beans for Coffee Lovers ☕</h1>
+      <p>Discover Indonesia’s finest single origins and blends — sourced by roasters, sold by trusted sellers.</p>
+      <div class="hero-ctas">
+        <a href="/products" class="btn" aria-label="Browse our specialty beans">Products</a>
+        <a href="/categories" class="btn btn-outline" aria-label="Browse by origin or type">Categories</a>
+      </div>
+    </div>
   </section>
+
+  <!-- ABOUT -->
+  <section class="section about" id="about">
+    <div class="container">
+      <h2 class="section-title">About <span>Daily Dose</span></h2>
+      <div class="row">
+        <div class="about-img">
+          <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?q=80&w=1400&auto=format&fit=crop" alt="Craft coffee cups arranged at a cafe bar" />
+        </div>
+        <div class="content space-y">
+          <h3>Marketplace for Specialty Coffee</h3>
+          <p>
+            We are a specialty coffee store where <strong>customers</strong> buy fresh-roasted beans
+            and <strong>sellers</strong> list their products for the community. Minimalist design,
+            maximum flavor — curated for coffee lovers.
+          </p>
+          <div class="about-ctas">
+            <a href="/products" class="btn">Shop Beans</a>
+            <a href="/categories" class="btn btn-outline">Explore Origins</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEASONAL PRODUCTS -->
+  <section class="section" id="menu">
+    <div class="container">
+      <h2 class="section-title">Seasonal <span>Products</span></h2>
+
+      <% if (typeof seasonal !== 'undefined' && seasonal && seasonal.length) { %>
+        <div class="menu-grid">
+          <% seasonal.forEach(p => { %>
+            <article class="card">
+              <img src="<%= p.imageURL %>" alt="<%= p.name %>" />
+              <div class="card-body">
+                <h3><%= p.name %></h3>
+                <% if (p.tastingNotes) { %>
+                  <p class="muted"><%= p.tastingNotes %></p>
+                <% } %>
+                <div class="price"><%= formatCurrency(p.price) %></div>
+                <% if (currentUser) { %>
+                  <a href="/products/add-to-cart/<%= p.id %>" class="btn">Add to Cart</a>
+                <% } else { %>
+                  <a href="/register?next=/products" class="btn">Add to Cart</a>
+                <% } %>
+              </div>
+            </article>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <!-- Fallback (static cards) -->
+        <div class="menu-grid">
+          <article class="card">
+            <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=1200&auto=format&fit=crop" alt="Rich espresso shot being pulled" />
+            <div class="card-body">
+              <h3>House Espresso</h3>
+              <p class="muted">Chocolate • Caramel • Almond</p>
+              <div class="price"><%= formatCurrency(28000) %></div>
+              <% if (currentUser) { %>
+                <a href="/products" class="btn">Add to Cart</a>
+              <% } else { %>
+                <a href="/register?next=/products" class="btn">Add to Cart</a>
+              <% } %>
+            </div>
+          </article>
+
+          <article class="card">
+            <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=1200&auto=format&fit=crop" alt="Iced cold brew coffee in a glass" />
+            <div class="card-body">
+              <h3>Cold Brew</h3>
+              <p class="muted">Slow steeped • Smooth • Refreshing</p>
+              <div class="price"><%= formatCurrency(42000) %></div>
+              <% if (currentUser) { %>
+                <a href="/products" class="btn">Add to Cart</a>
+              <% } else { %>
+                <a href="/register?next=/products" class="btn">Add to Cart</a>
+              <% } %>
+            </div>
+          </article>
+
+          <article class="card">
+            <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1200&auto=format&fit=crop" alt="Latte art tulip in a ceramic cup" />
+            <div class="card-body">
+              <h3>Oat Latte</h3>
+              <p class="muted">Creamy • Balanced • Plant-based</p>
+              <div class="price"><%= formatCurrency(45000) %></div>
+              <% if (currentUser) { %>
+                <a href="/products" class="btn">Add to Cart</a>
+              <% } else { %>
+                <a href="/register?next=/products" class="btn">Add to Cart</a>
+              <% } %>
+            </div>
+          </article>
+
+          <article class="card">
+            <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?q=80&w=1200&auto=format&fit=crop" alt="Single-origin coffee beans in a scoop" />
+            <div class="card-body">
+              <h3>Single-Origin Beans (250g)</h3>
+              <p class="muted">Filter & Espresso roasts</p>
+              <div class="price"><%= formatCurrency(180000) %></div>
+              <% if (currentUser) { %>
+                <a href="/products" class="btn">Add to Cart</a>
+              <% } else { %>
+                <a href="/register?next=/products" class="btn">Add to Cart</a>
+              <% } %>
+            </div>
+          </article>
+        </div>
+      <% } %>
+
+      <div style="text-align:center;margin-top:1.6rem">
+        <a href="/products" class="btn">See Full Products</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCATION -->
+  <section class="section location" id="location">
+    <div class="container">
+      <h2 class="section-title">Find <span>Us</span></h2>
+      <div class="row">
+        <!-- Jakarta Coffee HQ (Monas area coords) -->
+        <iframe
+          class="map"
+          title="Daily Dose Coffee — Jakarta HQ"
+          src="https://www.google.com/maps?q=-6.2088,106.8456&z=13&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="links">
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/contact">Contact</a>
+    </div>
+    <div class="muted">© <span id="year"></span> Daily Dose Coffee. All rights reserved.</div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
 </body>
 </html>
