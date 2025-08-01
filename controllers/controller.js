@@ -51,7 +51,7 @@ class Controller {
     }
   }
 
-  // ─── PROTECTED ─────────────────────────────────────────────────────────────
+  // ─── PROTECTED 
 
   static getLogout(req, res) {
     req.session.destroy(err => {
@@ -60,18 +60,16 @@ class Controller {
     })
   }
 
-  // ─── PRODUCTS ──────────────────────────────────────────────────────────────
+  // ─── PRODUCTS 
 
+// CONTROLLER REVISION
 static async products(req, res) {
   try {
     const { search, type, productDelete, sort } = req.query;
 
     const where = {};
-    if (search) {
-      where.name = { [Op.iLike]: `%${search}%` }; 
-    }
-
-    const typeId = Number(type) || null; 
+    if (search) where.name = { [Op.iLike]: `%${search}%` };
+    const typeId = Number(type) || null;
     if (typeId) where.CategoryId = typeId;
 
     let order = [['name', 'ASC']];
@@ -83,21 +81,22 @@ static async products(req, res) {
         include: [
           { model: User, attributes: ['email'], as: 'Seller' },
           { model: Category },
+          { model: Detail, as: 'Detail' }
         ],
         where,
         order,
       }),
-      Category.findAll({ order: [['name', 'ASC']] }),
+      Category.findAll({ order: [['name', 'ASC']] })
     ]);
 
     res.render('products', {
       data: products,
-      categories,            // <-- pass categories explicitly
+      categories,
       productDelete: productDelete || null,
       search: search || '',
-      type: typeId || '',    // keep value for form
+      type: typeId || '',
       sort: sort || '',
-      formatCurrency,
+      formatCurrency
     });
   } catch (error) {
     res.send(error);
@@ -117,27 +116,39 @@ static async products(req, res) {
     }
 
 
-  static async postAddProduct(req, res) {
-    try {
-      const { name, description, price, stock, imageURL, CategoryId } = req.body
-      await Product.create({
-        name,
-        description,
-        price,
-        stock,
-        imageURL,
-        CategoryId,
-        UserId: req.session.user.id
-      })
-      res.redirect('/products')
-    } catch (error) {
-      if (error.name === 'SequelizeValidationError') {
-        const errors = error.errors.map(e => e.message)
-        return res.render('addProduct', { errors })
-      }
-      res.send(error)
+static async postAddProduct(req, res) {
+  try {
+    const { name, description, price, stock, imageURL, CategoryId } = req.body;
+
+    const newProduct = await Product.create({
+      name,
+      description,
+      price,
+      stock,
+      imageURL,
+      CategoryId,
+      UserId: req.session.user.id
+    });
+
+    await Detail.create({
+      name: `Detail for ${name}`,
+      description: `This is the detail description for ${name}`,
+      ProductId: newProduct.id
+    });
+
+    res.redirect('/products');
+  } catch (error) {
+    if (error.name === 'SequelizeValidationError') {
+      const errors = error.errors.map(e => e.message);
+      const categories = await Category.findAll({ order: [['name', 'ASC']] });
+      return res.render('addProduct', {
+        errors,
+        data: { categories }
+      });
     }
+    res.send(error);
   }
+}
 
   static async getEditProduct(req, res) {
     try {
@@ -179,8 +190,7 @@ static async products(req, res) {
     }
   }
 
-  // ─── CART & CHECKOUT ───────────────────────────────────────────────────────
-
+  // ─── CART & CHECKOUT 
   static async getAddToCart(req, res) {
     try {
       const { id } = req.params
@@ -228,8 +238,7 @@ static async products(req, res) {
     }
   }
 
-  // ─── CATEGORIES ────────────────────────────────────────────────────────────
-
+  // ─── CATEGORIES 
   static async categories(req, res) {
     try {
       const data = await Category.findAll({ order: [['name','ASC']] })
@@ -254,7 +263,7 @@ static async products(req, res) {
     }
   }
 
-  // ─── PROFILE ───────────────────────────────────────────────────────────────
+  // ─── PROFILE 
 
   static async getProfile(req, res) {
     try {
@@ -293,6 +302,8 @@ static async products(req, res) {
       res.send(error)
     }
   }
+
+
 }
 
 module.exports = Controller

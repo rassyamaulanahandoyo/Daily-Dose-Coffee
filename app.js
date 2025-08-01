@@ -50,6 +50,7 @@ app.get('/profile',             isAuth, Controller.getProfile)
 app.get('/profile/edit',        isAuth, Controller.getEditProfile)
 app.post('/profile/edit',       isAuth, Controller.postEditProfile)
 
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })

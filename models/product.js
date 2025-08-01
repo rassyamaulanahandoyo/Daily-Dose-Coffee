@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     stock:       { type: DataTypes.INTEGER, allowNull: false, validate: { min: { args:[0], msg:'Cannot be negative' } }},
     imageURL:    { type: DataTypes.STRING, allowNull: false, validate: { notEmpty: { msg:'Image URL required' } }},
     CategoryId:  DataTypes.INTEGER,
-    UserId:      DataTypes.INTEGER, // <— add here so Sequelize knows about it
+    UserId:      DataTypes.INTEGER, // <— add here 
   }, {
     sequelize,
     modelName: 'Product',

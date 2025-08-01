@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Our Coffee Selection — Daily Dose</title>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
@@ -34,6 +33,7 @@
 
     /* FILTER FORM */
     .filter-form{display:grid;grid-template-columns:1.2fr .8fr .6fr auto;gap:.75rem;align-items:end;margin:1rem 0 1.2rem}
+    .filter-form label{font-weight:600;color:var(--primary)}
     .filter-form input,.filter-form select{height:44px;border:1px solid var(--line);border-radius:10px;padding:0 .9rem;background:#fff;color:var(--ink)}
     .filter-form input::placeholder{color:#9b9388}
     .filter-form input:focus,.filter-form select:focus{outline:2px solid var(--accent);outline-offset:2px}
@@ -56,6 +56,7 @@
     .meta{display:flex;gap:.6rem;flex-wrap:wrap;color:#6a6258;font-size:.92rem}
     .price{font-weight:700;color:var(--primary)}
     .seller{font-size:.9rem;color:#6a6258}
+    .detail-desc{font-size:.92rem;color:#5b5248;margin-top:0.5rem;}
     .actions{display:flex;gap:.5rem;padding:1rem;border-top:1px solid var(--line);margin-top:auto}
     .actions a{display:inline-block;padding:.55rem .9rem;border-radius:10px;border:1px solid var(--line)}
     .actions a:hover{border-color:var(--primary)}
@@ -76,9 +77,7 @@
         <li><a href="/products">Products</a></li>
         <li><a href="/categories">Categories</a></li>
         <li><a href="/cart">Cart</a></li>
-        <% if (currentUser.role === 'admin') { %>
-          <li><a href="/products/add">Add Product</a></li>
-        <% } %>
+        <% if (currentUser.role === 'admin') { %><li><a href="/products/add">Add Product</a></li><% } %>
         <li><a href="/profile">Profile</a></li>
         <li><a href="/logout">Logout</a></li>
       <% } else { %>
@@ -100,27 +99,27 @@
     <!-- FILTERS -->
     <form class="filter-form" method="get" action="/products">
       <input name="search" placeholder="Search beans…" value="<%= search || '' %>" />
-
+      <% const catFromData = (data||[]).map(d=>d.Category).filter(Boolean);
+         const map = new Map(catFromData.map(c=>[c.id,c]));
+         const categoriesList = (categories&&categories.length)?categories:Array.from(map.values()); %>
       <select name="type">
         <option value="">All Types</option>
-        <% categories.forEach(c => { %>
-          <option value="<%= c.id %>" <%= String(type)===String(c.id) ? 'selected' : '' %>><%= c.name %></option>
+        <% categoriesList.forEach(c=>{ %>
+          <option value="<%= c.id %>" <%= String(type)===String(c.id)?'selected':'' %>><%= c.name %></option>
         <% }) %>
       </select>
-
       <select name="sort">
         <option value="">Sort</option>
-        <option value="price_asc"  <%= sort==='price_asc'  ? 'selected' : '' %>>Price ↑</option>
-        <option value="price_desc" <%= sort==='price_desc' ? 'selected' : '' %>>Price ↓</option>
+        <option value="price_asc" <%= sort==='price_asc'?'selected':'' %>>Price ↑</option>
+        <option value="price_desc" <%= sort==='price_desc'?'selected':'' %>>Price ↓</option>
       </select>
-
       <button class="btn" type="submit">Apply</button>
     </form>
 
     <!-- GRID -->
     <div class="grid">
       <% if (data && data.length) { %>
-        <% data.forEach(p => { %>
+        <% data.forEach(p=>{ %>
           <article class="card">
             <img src="<%= p.imageURL %>" alt="<%= p.name %>">
             <div class="card-body">
@@ -129,12 +128,15 @@
                 <span class="price"><%= formatCurrency(p.price) %></span>
                 <span>• Stock: <%= p.stock %></span>
               </div>
-              <div class="seller">Seller: <%= p.Seller ? p.Seller.email : '-' %></div>
+              <div class="seller">Seller: <%= p.Seller? p.Seller.email:'-' %></div>
+              <% if (p.Detail && p.Detail.description) { %>
+                <p class="detail-desc"><%= p.Detail.description %></p>
+              <% } %>
             </div>
             <div class="actions">
               <% if (currentUser && currentUser.role==='admin') { %>
                 <a href="/products/<%= p.id %>/edit">Edit</a>
-                <a href="/products/<%= p.id %>/delete" onclick="return confirm('Delete <%= p.name.replace(/"/g,'&quot;') %>?')">Delete</a>
+                <a href="/products/<%= p.id %>/delete" onclick="return confirm('Delete this product?')">Delete</a>
               <% } %>
               <% if (currentUser) { %>
                 <a class="primary" href="/products/add-to-cart/<%= p.id %>">Add to Cart</a>
@@ -156,6 +158,6 @@
     </div>
   </footer>
 
-  <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
+  <script>document.getElementById('year').textContent=new Date().getFullYear()</script>
 </body>
 </html>

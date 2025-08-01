@@ -41,7 +41,7 @@ npx sequelize model:generate --name Detail   --attributes name:string,descriptio
 npx sequelize model:generate --name Order    --attributes qty:integer,status:string
 
 ## FK
-npx sequelize migration:generate --name add-all-foreign-keys
+npx sequelize migration:generate --name add-productId-to-Details
 
 ## SEEDING JSON
 
